@@ -52,6 +52,7 @@ $(function ($) {
         ctx.restore()
 
         ctx.save()
+        // 太阳图片太小，无法覆盖整个画布，所以此处给画布加一个背景色
         ctx.fillStyle = '#000'
         ctx.fillRect(0, 0, canvas.width, canvas.height)
         ctx.restore()
