@@ -11,6 +11,9 @@ $(function ($) {
     earth.src = './earth.png'
     moon.src = './moon.png'
 
+    /**
+     * 统一说明，该示例的核心设计之一，就是把日地月都移动到画布中心点再进行处理，可以大大简化整个模型
+     */
     const draw = () => {
         // 图形回合模式--先画的在上面
         ctx.globalCompositeOperation = 'destination-over'
