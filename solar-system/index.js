@@ -35,6 +35,8 @@ $(function ($) {
         ctx.drawImage(earth, -12, -12)
 
         // Moon
+        // 状态的管理是该案例的核心应用之一。
+        // 月球的状态是建立在地球状态的基础上的，这样可以确保日地同步运行
         ctx.save()
         ctx.rotate(
             ((2 * Math.PI) / 6) * time.getSeconds() +
@@ -45,8 +47,10 @@ $(function ($) {
         ctx.restore()
 
         // Sun
+        // 太阳不需要运动，所以这里就清除之前保存的状态
         ctx.restore()
         ctx.save()
+        // 太阳图片太小，不能铺满画布，所以这里把太阳图片移动到画布中间
         ctx.translate(100, 100)
         ctx.drawImage(sun, 0, 0, 200, 200)
         ctx.restore()
