@@ -20,7 +20,6 @@ $(function ($) {
     const size = 20
     // 棋盘落子情况
     let downList = []
-
     // 初始化落子情况 一行一行的排列
     for (let i = 0; i < count; i++) {
         for (let j = 0; j < count; j++) {
@@ -31,6 +30,8 @@ $(function ($) {
             })
         }
     }
+    // 游戏是否结束
+    let gameOver = false
 
     // 检查游戏结果 
     const checkGameResult = (px, py, list, isBlack) => {
@@ -40,21 +41,52 @@ $(function ($) {
         const column = px / grid
         // 当前落子的颜色转换
         const down = isBlack ? 1 : 2
+
         // 获取当前行落子情况
-        const lineDown = list.slice(line * count, (line + 1) * count)
+        const lineDown = list.filter(v => v.y == py)
         // 遍历当前行，查找是否有同颜色的五子连珠的情况
         for (let i = 0; i < lineDown.length; i++) {
             // 如果当前选中的五子中没有当前的落子，就跳过
             if (column < i || column > i + 4) continue
             // 验证选中的五子是否为同颜色落子
-            const result = lineDown.slice(i, i + 5).every(v => v.down == down)
+            const select = lineDown.slice(i, i + 5)
+            if(!select || select.length < 5) break
+            const result = select.every(v => v.down == down)
             if (!result) continue
             // 如果出现了五子连珠，就返回具体信息
             return {
                 winner: down, // 胜方，1为黑子，2为白子
-                successList: lineDown.slice(i, i + 5), // 五子连珠是哪五个棋子
+                successList: select, // 五子连珠是哪五个棋子
             }
         }
+
+        // 列
+        const columnDown = list.filter(v => v.x == px)
+        for (let i = 0; i < columnDown.length; i++) {
+            if (line < i || line > i + 4) continue
+            const select = columnDown.slice(i, i + 5)
+            if(!select || select.length < 5) break
+            const result = select.every(v => v.down == down)
+            if (!result) continue
+            return {
+                winner: down,
+                successList: columnDown.slice(i, i + 5),
+            }
+        }
+
+        // 反对角线\
+        // 落子所在的反对角线的交点总数
+        let diagonalRelativeCount = 0
+        console.log(`line: ${line}, column: ${column}`)
+        const diagonalRelativeDown = []
+        if (line == column) {
+            diagonalRelativeCount == count
+        } else if (line > column) {
+            diagonalRelativeCount = column + (count - line)
+        } else {
+            diagonalRelativeCount = line + (count - column)
+        }
+
         // 如果黑白双方都没获胜且没平局，就返回空
         return null
     }
@@ -97,6 +129,8 @@ $(function ($) {
 
         // 点击放置棋子
         $('#canvas').click(function (e) {
+            if (gameOver) return
+
             const ox = e.offsetX
             const oy = e.offsetY
             // 棋盘外放置无效
@@ -141,6 +175,7 @@ $(function ($) {
                 // 检查游戏是否结束，即是否有人胜出或失败或平局，如果有，就返回结果
                 const result = checkGameResult(positionX, positionY, downList, isBlack)
                 if (result) {
+                    gameOver = true
                     console.log(result)
                     // 把胜利的五子连珠高亮
                     ctx.save()
