@@ -2,37 +2,64 @@ $(function ($) {
     const canvas = $('#canvas')[0]
     const ctx = canvas.getContext('2d')
 
-    const draw = () => {
-        // 画布的宽度
-        const cw = canvas.width
-        // 画布的高度
-        const ch = canvas.height
-        // 组成格子的线的横向或纵向的条数
-        const count = 15
-        // 格子大小，宽高都是40
-        const grid = 50
-        // 最外面的线距离画布的边的距离
-        const margin = (canvas.width - (count - 1) * grid) / 2
-        // 棋盘颜色
-        const bgc = '#F0C092'
-        // 当前落子是否是黑子，黑子先手
-        let isBlack = true
-        // 棋子半径
-        const size = 20
-        // 棋盘落子情况
-        let downList = []
+    // 画布的宽度
+    const cw = canvas.width
+    // 画布的高度
+    const ch = canvas.height
+    // 组成格子的线的横向或纵向的条数
+    const count = 15
+    // 格子大小，宽高都是40
+    const grid = 50
+    // 最外面的线距离画布的边的距离
+    const margin = (canvas.width - (count - 1) * grid) / 2
+    // 棋盘颜色
+    const bgc = '#F0C092'
+    // 当前落子是否是黑子，黑子先手
+    let isBlack = true
+    // 棋子半径
+    const size = 20
+    // 棋盘落子情况
+    let downList = []
 
-        // 初始化落子情况 一行一行的排列
-        for (let i = 0; i < count; i++) {
-            for (let j = 0; j < count; j++) {
-                downList.push({
-                    x: j * grid,
-                    y: i * grid,
-                    down: 0, // 0表示未落子，1表示黑子，2表示落子为白子
-                })
+    // 初始化落子情况 一行一行的排列
+    for (let i = 0; i < count; i++) {
+        for (let j = 0; j < count; j++) {
+            downList.push({
+                x: j * grid,
+                y: i * grid,
+                down: 0, // 0表示未落子，1表示黑子，2表示落子为白子
+            })
+        }
+    }
+
+    // 检查游戏结果 
+    const checkGameResult = (px, py, list, isBlack) => {
+        // 当前落子所在的行 从0开始
+        const line = py / grid
+        // 当前列
+        const column = px / grid
+        // 当前落子的颜色转换
+        const down = isBlack ? 1 : 2
+        // 获取当前行落子情况
+        const lineDown = list.slice(line * count, (line + 1) * count)
+        // 遍历当前行，查找是否有同颜色的五子连珠的情况
+        for (let i = 0; i < lineDown.length; i++) {
+            // 如果当前选中的五子中没有当前的落子，就跳过
+            if (column < i || column > i + 4) continue
+            // 验证选中的五子是否为同颜色落子
+            const result = lineDown.slice(i, i + 5).every(v => v.down == down)
+            if (!result) continue
+            // 如果出现了五子连珠，就返回具体信息
+            return {
+                winner: down, // 胜方，1为黑子，2为白子
+                successList: lineDown.slice(i, i + 5), // 五子连珠是哪五个棋子
             }
         }
+        // 如果黑白双方都没获胜且没平局，就返回空
+        return null
+    }
 
+    const draw = () => {
         // 清空画布
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -111,7 +138,22 @@ $(function ($) {
                 ctx.fill()
                 // 更新落子情况
                 downList = downList.map(v => v.x == positionX && v.y == positionY ? { ...v, down: isBlack ? 1 : 2 } : v)
-                // 检查游戏是否结束，即是否有人胜出或失败或平局
+                // 检查游戏是否结束，即是否有人胜出或失败或平局，如果有，就返回结果
+                const result = checkGameResult(positionX, positionY, downList, isBlack)
+                if (result) {
+                    console.log(result)
+                    // 把胜利的五子连珠高亮
+                    ctx.save()
+                    ctx.beginPath()
+                    ctx.fillStyle = 'green'
+                    result.successList.forEach(v => {
+                        ctx.moveTo(v.x, v.y)
+                        ctx.arc(v.x, v.y, size, 0, Math.PI * 2)
+                        ctx.fill()
+                    })
+                    ctx.restore()
+                    return
+                }
                 // 下一次落子的颜色跟当前颜色相反
                 isBlack = !isBlack
             }
