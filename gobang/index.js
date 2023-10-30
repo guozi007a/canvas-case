@@ -75,7 +75,6 @@ $(function ($) {
         }
 
         // 对角线/
-        console.log(`line: ${line}, column: ${column}`)
         const diagonalDown = []
         // 对角线起点位置 左上角和右下角刚好对称
         // 每条对角线上的点，x + y都是相等的值，
@@ -142,6 +141,7 @@ $(function ($) {
         // 清空画布
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 
+        ctx.save()
         // 画棋盘背景色
         ctx.fillStyle = bgc
         ctx.fillRect(0, 0, cw, ch)
@@ -243,6 +243,8 @@ $(function ($) {
                     } else {
                         // 平局
                     }
+                    ctx.restore()
+                    draw()
                     return
                 }
                 // 下一次落子的颜色跟当前颜色相反
