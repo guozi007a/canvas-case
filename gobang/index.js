@@ -74,17 +74,55 @@ $(function ($) {
             }
         }
 
-        // 反对角线\
-        // 落子所在的反对角线的交点总数
-        let diagonalRelativeCount = 0
+        // 对角线/
         console.log(`line: ${line}, column: ${column}`)
+        const diagonalDown = []
+        // 对角线起点位置 左上角和右下角刚好对称
+        // 每条对角线上的点，x + y都是相等的值，
+        // 在左上角，起点的y是0，终点的x是0，且x + y小于14；在右下角，起点的x是14，终点的y是14,且x + y大于14
+        const beginX = line + column <= count - 1 ? line + column : count - 1
+        const beginY = line + column <= count - 1 ? 0 : (line + column) - (count - 1)
+        const total = line + column <= count - 1 ? line + column + 1 : count - beginY
+        for (let i = 0; i < total; i++) {
+            const o = list.find(v => v.x == (beginX - i) * grid && v.y == (beginY + i) * grid)
+            diagonalDown.push(o)
+        }
+        if (diagonalDown.length < 5) return null
+        for (let i = 0; i < diagonalDown.length; i++) {
+            const item = diagonalDown[i]
+            if (line < item.y / grid || line > item.y / grid + 4) continue
+            const select = diagonalDown.slice(i, i + 5)
+            if(!select || select.length < 5) break
+            const result = select.every(v => v.down == down)
+            if (!result) continue
+            return {
+                winner: down,
+                successList: diagonalDown.slice(i, i + 5),
+            }
+        }
+
+        // 反对角线\
         const diagonalRelativeDown = []
-        if (line == column) {
-            diagonalRelativeCount == count
-        } else if (line > column) {
-            diagonalRelativeCount = column + (count - line)
-        } else {
-            diagonalRelativeCount = line + (count - column)
+        // 对角线起点位置 左下角和右上角刚好对称
+        // 左下角区域line > column，右上角区域line < column
+        const startX = line >= column ? 0 : column - line
+        const startY = line >= column ? line - column : 0
+        for (let i = 0; i < count - (Math.max(startX, startY)); i++) {
+            const o = list.find(v => v.x == (startX + i) * grid && v.y == (startY + i) * grid)
+            diagonalRelativeDown.push(o)
+        }
+        if (diagonalRelativeDown.length < 5) return null
+        for (let i = 0; i < diagonalRelativeDown.length; i++) {
+            const item = diagonalRelativeDown[i]
+            if (line < item.y / grid || line > item.y / grid + 4) continue
+            const select = diagonalRelativeDown.slice(i, i + 5)
+            if(!select || select.length < 5) break
+            const result = select.every(v => v.down == down)
+            if (!result) continue
+            return {
+                winner: down,
+                successList: diagonalRelativeDown.slice(i, i + 5),
+            }
         }
 
         // 如果黑白双方都没获胜且没平局，就返回空
