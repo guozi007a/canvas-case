@@ -8,7 +8,7 @@ $(function ($) {
     const ch = canvas.height
     // 组成格子的线的横向或纵向的条数
     const count = 15
-    // 格子大小，宽高都是40
+    // 格子大小，宽高都是50
     const grid = 50
     // 最外面的线距离画布的边的距离
     const margin = (canvas.width - (count - 1) * grid) / 2
@@ -125,6 +125,15 @@ $(function ($) {
             }
         }
 
+        // 如果棋盘已经落满棋子，但是都未取得胜利，则比赛平局
+        const isAllDown = list.every(v => v.down)
+        if (isAllDown) {
+            return {
+                winner: null,
+                successList: null,
+            }
+        }
+
         // 如果黑白双方都没获胜且没平局，就返回空
         return null
     }
@@ -204,7 +213,11 @@ $(function ($) {
                 if (o) return
                 // 如果还没有，就落子成功
                 ctx.beginPath()
-                ctx.fillStyle = isBlack ? '#000' : '#fff'
+                // 使用圆环渐变色，增加棋子的立体感和光泽感
+                const gradient = ctx.createRadialGradient(positionX - size / 2, positionY - size / 2, 0, positionX - size / 2, positionY - size / 2, size * 1.5)
+                gradient.addColorStop(0, isBlack ? '#ccc' : '#c9c9c9')
+                gradient.addColorStop(1, isBlack ? '#000' : '#fff')
+                ctx.fillStyle = gradient
                 ctx.moveTo(positionX, positionY)
                 ctx.arc(positionX, positionY, size, 0, Math.PI * 2)
                 ctx.fill()
@@ -215,16 +228,21 @@ $(function ($) {
                 if (result) {
                     gameOver = true
                     console.log(result)
-                    // 把胜利的五子连珠高亮
-                    ctx.save()
-                    ctx.beginPath()
-                    ctx.fillStyle = 'green'
-                    result.successList.forEach(v => {
-                        ctx.moveTo(v.x, v.y)
-                        ctx.arc(v.x, v.y, size, 0, Math.PI * 2)
-                        ctx.fill()
-                    })
-                    ctx.restore()
+                    // 如果分出了胜负，非平局
+                    if (result.winner) {
+                        // 把胜利的五子连珠高亮
+                        result.successList.forEach(v => {
+                            ctx.beginPath()
+                            const gradient = ctx.createRadialGradient(v.x - size / 2, v.y - size / 2, 0, v.x - size / 2, v.y - size / 2, size * 1.5)
+                            gradient.addColorStop(0, '#ccc')
+                            gradient.addColorStop(1, 'green')
+                            ctx.fillStyle = gradient
+                            ctx.arc(v.x, v.y, size, 0, Math.PI * 2)
+                            ctx.fill()
+                        })
+                    } else {
+                        // 平局
+                    }
                     return
                 }
                 // 下一次落子的颜色跟当前颜色相反
