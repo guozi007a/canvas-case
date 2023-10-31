@@ -20,23 +20,9 @@ $(function ($) {
     const size = 20
     // 棋盘落子情况
     let downList = []
-    // 初始化落子情况 一行一行的排列
-    for (let i = 0; i < count; i++) {
-        for (let j = 0; j < count; j++) {
-            downList.push({
-                x: j * grid,
-                y: i * grid,
-                down: 0, // 0表示未落子，1表示黑子，2表示落子为白子
-            })
-        }
-    }
+    
     // 游戏是否结束，默认结束，点击开始或者下一局时，重新开始游戏
     let gameOver = true
-
-    // mask关闭弹框
-    $('.pic_mask').click(function () {
-        $('.picture').hide()
-    })
 
     // 开始游戏
     $('.start').click(function () {
@@ -65,12 +51,16 @@ $(function ($) {
         $(this).hide()
         $('.pause, .continue').hide()
         $('.dialog, .dialog1').show()
+        ctx.restore()
+        gamePreStart()
     })
 
     // 再玩一局，直接开局，不需要点开始游戏了
     $('.more').click(function () {
         gameOver = false
         $('.dialog, .dialog2').hide()
+        ctx.restore()
+        init()
     })
 
     // 改天再约，就是恢复到初始状态
@@ -78,6 +68,8 @@ $(function ($) {
         gameOver = true
         $('.dialog2').hide()
         $('.dialog1').show()
+        ctx.restore()
+        gamePreStart()
     })
 
     // 截图保存
@@ -93,12 +85,11 @@ $(function ($) {
         $('.picture').show()
     })
 
-    // 游戏结束的时候，即出现胜负或平局结果后
-    const playEnd = () => {
-        gameOver = true
+    // 截图弹框中，点击遮罩层，关闭截图弹框
+    $('.pic_mask').click(function () {
+        $('.picture').hide()
         $('.dialog, .dialog2').show()
-        $('.end, .pause').hide()
-    }
+    })
 
     // 检查游戏结果 
     const checkGameResult = (px, py, list, isBlack) => {
@@ -204,40 +195,73 @@ $(function ($) {
         return null
     }
 
-    // 清空画布
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    // 游戏初始化
+    const init = () => {
+        // 清空画布
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.save()
 
-    // 画棋盘背景色
-    ctx.fillStyle = bgc
-    ctx.fillRect(0, 0, cw, ch)
+        // 画棋盘背景色
+        ctx.fillStyle = bgc
+        ctx.fillRect(0, 0, cw, ch)
 
-    // 整体移动画布内容
-    ctx.translate(margin, margin)
-    ctx.fillStyle = '#000'
+        // 整体移动画布内容
+        ctx.translate(margin, margin)
+        ctx.fillStyle = '#000'
 
-    // 画格子线条
-    ctx.beginPath()
-    for (let i = 0; i < count; i++) {
-        ctx.moveTo(0, i * grid)
-        ctx.lineTo(grid * (count - 1), i * grid)
-        ctx.moveTo(i * grid, 0)
-        ctx.lineTo(i * grid, grid * (count - 1))
+        // 画格子线条
+        ctx.beginPath()
+        for (let i = 0; i < count; i++) {
+            ctx.moveTo(0, i * grid)
+            ctx.lineTo(grid * (count - 1), i * grid)
+            ctx.moveTo(i * grid, 0)
+            ctx.lineTo(i * grid, grid * (count - 1))
+        }
+        ctx.stroke()
+
+        // 棋盘上的5个黑点
+        ctx.beginPath()
+        ctx.arc((count - 1) / 2 * grid, (count - 1) / 2 * grid, 10, 0, Math.PI * 2)
+        ctx.moveTo(3 * grid, 3 * grid)
+        ctx.arc(3 * grid, 3 * grid, 10, 0, Math.PI * 2)
+        ctx.moveTo(11 * grid, 3 * grid)
+        ctx.arc(11 * grid, 3 * grid, 10, 0, Math.PI * 2)
+        ctx.moveTo(11 * grid, 11 * grid)
+        ctx.arc(11 * grid, 11 * grid, 10, 0, Math.PI * 2)
+        ctx.moveTo(3 * grid, 11 * grid)
+        ctx.arc(3 * grid, 11 * grid, 10, 0, Math.PI * 2)
+        ctx.stroke()
+        ctx.fill()
+
+        downList = []
+        // 初始化落子情况 一行一行的排列
+        for (let i = 0; i < count; i++) {
+            for (let j = 0; j < count; j++) {
+                downList.push({
+                    x: j * grid,
+                    y: i * grid,
+                    down: 0, // 0表示未落子，1表示黑子，2表示落子为白子
+                })
+            }
+        }
+
+        isBlack = true
     }
-    ctx.stroke()
 
-    // 棋盘上的5个黑点
-    ctx.beginPath()
-    ctx.arc((count - 1) / 2 * grid, (count - 1) / 2 * grid, 10, 0, Math.PI * 2)
-    ctx.moveTo(3 * grid, 3 * grid)
-    ctx.arc(3 * grid, 3 * grid, 10, 0, Math.PI * 2)
-    ctx.moveTo(11 * grid, 3 * grid)
-    ctx.arc(11 * grid, 3 * grid, 10, 0, Math.PI * 2)
-    ctx.moveTo(11 * grid, 11 * grid)
-    ctx.arc(11 * grid, 11 * grid, 10, 0, Math.PI * 2)
-    ctx.moveTo(3 * grid, 11 * grid)
-    ctx.arc(3 * grid, 11 * grid, 10, 0, Math.PI * 2)
-    ctx.stroke()
-    ctx.fill()
+    // 准备开始
+    const gamePreStart = () => {
+        init()
+
+        // 显示开始游戏弹框
+        $('.dialog, .dialog1').show()
+    }
+
+    // 游戏结束的时候，即出现胜负或平局结果后
+    const playEnd = () => {
+        gameOver = true
+        $('.dialog, .dialog2').show()
+        $('.end, .pause').hide()
+    }
 
     // 点击放置棋子
     $('#canvas').click(function (e) {
@@ -247,7 +271,7 @@ $(function ($) {
         const oy = e.offsetY
         // 棋盘外放置无效
         if (ox < margin || oy < margin || ox > (cw - margin) || oy > (ch - margin)) return
-        // 计算落子坐标
+        // 计算落子坐标，棋子点击后应该落在哪个交叉点上
         let positionX = -1
         let positionY = -1
         const minXN = Math.floor((ox - margin) / grid)
@@ -291,8 +315,6 @@ $(function ($) {
             // 检查游戏是否结束，即是否有人胜出或失败或平局，如果有，就返回结果
             const result = checkGameResult(positionX, positionY, downList, isBlack)
             if (result) {
-                gameOver = true
-                console.log(result)
                 // 如果分出了胜负，非平局
                 if (result.winner) {
                     // 把胜利的五子连珠高亮
@@ -307,6 +329,7 @@ $(function ($) {
                     })
                 } else {
                     // 平局
+                    $('.dialog2 .title').text('No Fucking Winner !')
                 }
                 playEnd()
                 return
@@ -316,10 +339,5 @@ $(function ($) {
         }
     })
 
-    const init = () => {
-        // 显示开始游戏弹框
-        $('.dialog, .dialog1').show()
-    }
-
-    init()
+    gamePreStart()
 })
