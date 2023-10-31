@@ -126,12 +126,13 @@ $(function ($) {
         // 序号的字体大小
         const sortFontSize = 16
         // 实际落子列表，且按落子次序进行排序
-        const accessDownList = downList.filter(v => v.down).sort((a, b) => a.sort - b.sort)
+        let accessDownList = downList.filter(v => v.down).sort((a, b) => a.sort - b.sort)
         let cur = 0
         timer = setInterval(() => {
             if (cur >= sort) {
                 clearInterval(timer)
                 $ctx.restore()
+                accessDownList = null
                 return
             }
             const dx = accessDownList[cur].x
