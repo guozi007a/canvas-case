@@ -3,23 +3,34 @@ $(function ($) {
     const ctx = canvas.getContext('2d')
     const $canvas = $('#pic')[0]
     const $ctx = $canvas.getContext('2d')
+    const bw = $('body').width()
+    console.log(`body width: ${bw}`)
+    // 打断点适配不同尺寸的设备
+    const breakPoint1 = 1420
+    const breakPoint2 = 1080
 
     // 画布的宽度
+    canvas.width = bw >= breakPoint1 ? 800 : (bw > breakPoint2 ? 600 : Math.floor(bw / 100) * 100)
     const cw = canvas.width
     // 画布的高度
+    canvas.height = bw >= breakPoint1 ? 800 : (bw > breakPoint2 ? 600 : Math.floor(bw / 100) * 100)
     const ch = canvas.height
+    console.log(`width: ${cw}, height: ${ch}`)
     // 组成格子的线的横向或纵向的条数
     const count = 15
-    // 格子大小，宽高都是50
-    const grid = 50
+    // 格子大小(等宽等高)
+    const grid = Math.floor(cw / (count + 1))
+    console.log(`grid: ${grid}`)
     // 最外面的线距离画布的边的距离
-    const margin = (canvas.width - (count - 1) * grid) / 2
+    const margin = (cw - (count - 1) * grid) / 2
+    console.log(`margin: ${margin}`)
     // 棋盘颜色
     const bgc = '#F0C092'
     // 当前落子是否是黑子，黑子先手
     let isBlack = true
     // 棋子半径
-    const size = 20
+    const size = bw >= breakPoint1 ? 20 : (bw > breakPoint2 ? 16 : Math.floor(grid / 2) - 8)
+    console.log(`size: ${size}`)
     // 棋盘落子情况
     let downList = []
     // 游戏是否结束，默认结束，点击开始或者下一局时，重新开始游戏
@@ -30,6 +41,8 @@ $(function ($) {
     let timer = null
     // 回溯时落子时间间隔
     const traceDelay = 300
+    // 序号的字体大小
+    const sortFontSize = bw > breakPoint2 ? 16 : 30
 
     // 开始游戏
     $('.start').click(function () {
@@ -123,8 +136,6 @@ $(function ($) {
         $ctx.stroke()
         $ctx.fill()
 
-        // 序号的字体大小
-        const sortFontSize = 16
         // 实际落子列表，且按落子次序进行排序
         let accessDownList = downList.filter(v => v.down).sort((a, b) => a.sort - b.sort)
         let cur = 0
@@ -330,6 +341,9 @@ $(function ($) {
         $('.current span').text(isBlack ? '黑子' : '白子')
 
         sort = 0
+
+        $('.dialog').width(cw)
+        $('.dialog').height(ch)
     }
 
     // 准备开始
