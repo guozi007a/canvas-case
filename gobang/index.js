@@ -415,7 +415,7 @@ $(function ($) {
                         ctx.arc(v.x, v.y, size, 0, Math.PI * 2)
                         ctx.fill()
                     })
-                    $('.dialog2 .title').text('You Funcking Win !');
+                    $('.dialog2 .title').text('You Fucking Win !');
                 } else {
                     // 平局
                     $('.dialog2 .title').text('No Fucking Winner !')
