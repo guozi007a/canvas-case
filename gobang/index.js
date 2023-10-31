@@ -6,7 +6,7 @@ $(function ($) {
     const bw = $('body').width()
     console.log(`body width: ${bw}`)
     // 打断点适配不同尺寸的设备
-    const breakPoint1 = 1420
+    const breakPoint1 = 1540
     const breakPoint2 = 1080
     const baseSize = 1080
 
