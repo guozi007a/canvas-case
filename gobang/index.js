@@ -55,7 +55,7 @@ $(function ($) {
     // 回溯时落子时间间隔
     const traceDelay = 300
     // 序号的字体大小
-    const sortFontSize = bw > breakPoint2 ? 16 : Math.ceil(30 * bw / baseSize)
+    const sortFontSize = bw > breakPoint2 ? 16 : Math.ceil(32 * bw / baseSize)
     // 棋盘上5个黑点的半径
     const starDotSize = Math.floor(size / 2)
 
