@@ -1,6 +1,8 @@
 $(function ($) {
     const canvas = $('#canvas')[0]
     const ctx = canvas.getContext('2d')
+    const $canvas = $('#pic')[0]
+    const $ctx = $canvas.getContext('2d')
 
     // 画布的宽度
     const cw = canvas.width
@@ -20,9 +22,14 @@ $(function ($) {
     const size = 20
     // 棋盘落子情况
     let downList = []
-    
     // 游戏是否结束，默认结束，点击开始或者下一局时，重新开始游戏
     let gameOver = true
+    // 当前落子总数
+    let sort = 0
+    // 全局回溯时使用的定时器
+    let timer = null
+    // 回溯时落子时间间隔
+    const traceDelay = 300
 
     // 开始游戏
     $('.start').click(function () {
@@ -76,11 +83,76 @@ $(function ($) {
     $('.save').click(function () {
         $('.dialog, .dialog2').hide()
 
-        const $canvas = $('#pic')[0]
-        const $ctx = $canvas.getContext('2d')
-        $canvas.width = canvas.width
-        $canvas.height = canvas.height
+        $ctx.clearRect(0, 0, cw, ch)
         $ctx.drawImage(canvas, 0, 0, $canvas.width, $canvas.height)
+
+        $('.picture').show()
+    })
+
+    // 全局回溯
+    $('.trace').click(function () {
+        $('.dialog, .dialog2').hide()
+
+        $ctx.clearRect(0, 0, cw, ch)
+        $ctx.save()
+
+        $ctx.fillStyle = bgc
+        $ctx.fillRect(0, 0, cw, ch)
+        $ctx.translate(margin, margin)
+        $ctx.fillStyle = '#000'
+
+        $ctx.beginPath()
+        for (let i = 0; i < count; i++) {
+            $ctx.moveTo(0, i * grid)
+            $ctx.lineTo(grid * (count - 1), i * grid)
+            $ctx.moveTo(i * grid, 0)
+            $ctx.lineTo(i * grid, grid * (count - 1))
+        }
+        $ctx.stroke()
+
+        $ctx.beginPath()
+        $ctx.arc((count - 1) / 2 * grid, (count - 1) / 2 * grid, 10, 0, Math.PI * 2)
+        $ctx.moveTo(3 * grid, 3 * grid)
+        $ctx.arc(3 * grid, 3 * grid, 10, 0, Math.PI * 2)
+        $ctx.moveTo(11 * grid, 3 * grid)
+        $ctx.arc(11 * grid, 3 * grid, 10, 0, Math.PI * 2)
+        $ctx.moveTo(11 * grid, 11 * grid)
+        $ctx.arc(11 * grid, 11 * grid, 10, 0, Math.PI * 2)
+        $ctx.moveTo(3 * grid, 11 * grid)
+        $ctx.arc(3 * grid, 11 * grid, 10, 0, Math.PI * 2)
+        $ctx.stroke()
+        $ctx.fill()
+
+        // 序号的字体大小
+        const sortFontSize = 16
+        // 实际落子列表，且按落子次序进行排序
+        const accessDownList = downList.filter(v => v.down).sort((a, b) => a.sort - b.sort)
+        let cur = 0
+        timer = setInterval(() => {
+            if (cur >= sort) {
+                clearInterval(timer)
+                $ctx.restore()
+                return
+            }
+            const dx = accessDownList[cur].x
+            const dy = accessDownList[cur].y
+            const dd = accessDownList[cur].down
+            $ctx.beginPath()
+            // 使用圆环渐变色，增加棋子的立体感和光泽感
+            const gradient = $ctx.createRadialGradient(dx - size / 2, dy - size / 2, 0, dx - size / 2, dy - size / 2, size * 1.5)
+            gradient.addColorStop(0, dd == 1 ? '#ccc' : '#c9c9c9')
+            gradient.addColorStop(1, dd == 1 ? '#000' : '#fff')
+            $ctx.fillStyle = gradient
+            $ctx.moveTo(dx, dy)
+            $ctx.arc(dx, dy, size, 0, Math.PI * 2)
+            $ctx.fill()
+            $ctx.fillStyle = dd == 1 ? '#fff' : '#333'
+            $ctx.font = `bold ${sortFontSize}px serif`
+            $ctx.textAlign = 'center'
+            $ctx.fillText(`${cur + 1}`, dx, dy + sortFontSize / 2 - 2)
+
+            cur++
+        }, traceDelay);
 
         $('.picture').show()
     })
@@ -89,6 +161,9 @@ $(function ($) {
     $('.pic_mask').click(function () {
         $('.picture').hide()
         $('.dialog, .dialog2').show()
+
+        clearInterval(timer)
+        $ctx.restore()
     })
 
     // 检查游戏结果 
@@ -198,7 +273,7 @@ $(function ($) {
     // 游戏初始化
     const init = () => {
         // 清空画布
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.clearRect(0, 0, cw, ch)
         ctx.save()
 
         // 画棋盘背景色
@@ -233,6 +308,9 @@ $(function ($) {
         ctx.stroke()
         ctx.fill()
 
+        $canvas.width = cw
+        $canvas.height = ch
+
         downList = []
         // 初始化落子情况 一行一行的排列
         for (let i = 0; i < count; i++) {
@@ -241,6 +319,7 @@ $(function ($) {
                     x: j * grid,
                     y: i * grid,
                     down: 0, // 0表示未落子，1表示黑子，2表示落子为白子
+                    sort: 0, // 落子次序，用于全局回溯
                 })
             }
         }
@@ -248,6 +327,8 @@ $(function ($) {
         isBlack = true
 
         $('.current span').text(isBlack ? '黑子' : '白子')
+
+        sort = 0
     }
 
     // 准备开始
@@ -314,8 +395,10 @@ $(function ($) {
             ctx.fill()
             // 更新执棋者提示
             $('.current span').text(isBlack ? '白子' : '黑子')
+            // 更新落子数
+            sort++
             // 更新落子情况
-            downList = downList.map(v => v.x == positionX && v.y == positionY ? { ...v, down: isBlack ? 1 : 2 } : v)
+            downList = downList.map(v => v.x == positionX && v.y == positionY ? { ...v, down: isBlack ? 1 : 2, sort } : v)
             // 检查游戏是否结束，即是否有人胜出或失败或平局，如果有，就返回结果
             const result = checkGameResult(positionX, positionY, downList, isBlack)
             if (result) {
