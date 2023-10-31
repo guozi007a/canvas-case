@@ -7,3 +7,93 @@ canvas {
     display: block;
     margin: 0 auto;
 }
+
+.btn {
+    width: 120px;
+    height: 42px;
+    text-align: center;
+    line-height: 42px;
+    color: #fff;
+    background-color: #F0C092;
+    border-radius: 6px;
+    letter-spacing: 2px;
+    margin: auto;
+    margin-top: 20px;
+    cursor: pointer;
+    user-select: none;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.btn:hover {
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.pause,
+.continue,
+.end {
+    display: none;
+}
+
+.dialog,
+.picture {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialog {
+    width: 800px;
+    height: 800px;
+}
+
+.log {
+    position: relative;
+    width: 100%;
+    display: none;
+}
+
+.dialog_main .title {
+    text-align: center;
+    font-size: 50px;
+    color: red;
+    margin-bottom: 50px;
+    user-select: none;
+}
+
+.picture {
+    width: 100%;
+    height: 100vh;
+}
+
+.dialog_mask,
+.pic_mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .8);
+}
+
+.picture #pic {
+    position: relative;
+}
+
+@keyframes updown {
+    0% {transform: translateY(0);}
+    25% {transform: translateY(-20px);}
+    50% {transform: translateY(0);}
+    75% {transform: translateY(20px);}
+    100% {transform: translateY(0);}
+}
+
+.start {
+    animation: updown 3s infinite linear;
+}
