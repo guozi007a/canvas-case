@@ -312,6 +312,8 @@ $(function ($) {
             ctx.moveTo(positionX, positionY)
             ctx.arc(positionX, positionY, size, 0, Math.PI * 2)
             ctx.fill()
+            // 更新执棋者提示
+            $('.current span').text(isBlack ? '白子' : '黑子')
             // 更新落子情况
             downList = downList.map(v => v.x == positionX && v.y == positionY ? { ...v, down: isBlack ? 1 : 2 } : v)
             // 检查游戏是否结束，即是否有人胜出或失败或平局，如果有，就返回结果
