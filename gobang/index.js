@@ -8,12 +8,25 @@ $(function ($) {
     // 打断点适配不同尺寸的设备
     const breakPoint1 = 1420
     const breakPoint2 = 1080
+    const baseSize = 1080
+
+    // 响应式尺寸，适配不同设备尺寸
+    const flexible = () => {
+        if (bw <= baseSize) {
+            const rem = bw / baseSize * 10
+            document.documentElement.style.fontSize = rem + 'px'
+        }
+    }
+
+    flexible()
+
+    window.addEventListener('resize', flexible)
 
     // 画布的宽度
-    canvas.width = bw >= breakPoint1 ? 800 : (bw > breakPoint2 ? 600 : Math.floor(bw / 100) * 100)
+    canvas.width = bw >= breakPoint1 ? 800 : (bw > breakPoint2 ? 600 : Math.floor(bw / 10) * 10)
     const cw = canvas.width
     // 画布的高度
-    canvas.height = bw >= breakPoint1 ? 800 : (bw > breakPoint2 ? 600 : Math.floor(bw / 100) * 100)
+    canvas.height = bw >= breakPoint1 ? 800 : (bw > breakPoint2 ? 600 : Math.floor(bw / 10) * 10)
     const ch = canvas.height
     console.log(`width: ${cw}, height: ${ch}`)
     // 组成格子的线的横向或纵向的条数
@@ -29,7 +42,7 @@ $(function ($) {
     // 当前落子是否是黑子，黑子先手
     let isBlack = true
     // 棋子半径
-    const size = bw >= breakPoint1 ? 20 : (bw > breakPoint2 ? 16 : Math.floor(grid / 2) - 8)
+    const size = bw >= breakPoint1 ? 20 : (bw > breakPoint2 ? 16 : Math.floor(grid / 2) - 1)
     console.log(`size: ${size}`)
     // 棋盘落子情况
     let downList = []
@@ -42,7 +55,9 @@ $(function ($) {
     // 回溯时落子时间间隔
     const traceDelay = 300
     // 序号的字体大小
-    const sortFontSize = bw > breakPoint2 ? 16 : 30
+    const sortFontSize = bw > breakPoint2 ? 16 : Math.ceil(30 * bw / baseSize)
+    // 棋盘上5个黑点的半径
+    const starDotSize = Math.floor(size / 2)
 
     // 开始游戏
     $('.start').click(function () {
@@ -124,15 +139,15 @@ $(function ($) {
         $ctx.stroke()
 
         $ctx.beginPath()
-        $ctx.arc((count - 1) / 2 * grid, (count - 1) / 2 * grid, 10, 0, Math.PI * 2)
+        $ctx.arc((count - 1) / 2 * grid, (count - 1) / 2 * grid, starDotSize, 0, Math.PI * 2)
         $ctx.moveTo(3 * grid, 3 * grid)
-        $ctx.arc(3 * grid, 3 * grid, 10, 0, Math.PI * 2)
+        $ctx.arc(3 * grid, 3 * grid, starDotSize, 0, Math.PI * 2)
         $ctx.moveTo(11 * grid, 3 * grid)
-        $ctx.arc(11 * grid, 3 * grid, 10, 0, Math.PI * 2)
+        $ctx.arc(11 * grid, 3 * grid, starDotSize, 0, Math.PI * 2)
         $ctx.moveTo(11 * grid, 11 * grid)
-        $ctx.arc(11 * grid, 11 * grid, 10, 0, Math.PI * 2)
+        $ctx.arc(11 * grid, 11 * grid, starDotSize, 0, Math.PI * 2)
         $ctx.moveTo(3 * grid, 11 * grid)
-        $ctx.arc(3 * grid, 11 * grid, 10, 0, Math.PI * 2)
+        $ctx.arc(3 * grid, 11 * grid, starDotSize, 0, Math.PI * 2)
         $ctx.stroke()
         $ctx.fill()
 
@@ -308,15 +323,15 @@ $(function ($) {
 
         // 棋盘上的5个黑点
         ctx.beginPath()
-        ctx.arc((count - 1) / 2 * grid, (count - 1) / 2 * grid, 10, 0, Math.PI * 2)
+        ctx.arc((count - 1) / 2 * grid, (count - 1) / 2 * grid, starDotSize, 0, Math.PI * 2)
         ctx.moveTo(3 * grid, 3 * grid)
-        ctx.arc(3 * grid, 3 * grid, 10, 0, Math.PI * 2)
+        ctx.arc(3 * grid, 3 * grid, starDotSize, 0, Math.PI * 2)
         ctx.moveTo(11 * grid, 3 * grid)
-        ctx.arc(11 * grid, 3 * grid, 10, 0, Math.PI * 2)
+        ctx.arc(11 * grid, 3 * grid, starDotSize, 0, Math.PI * 2)
         ctx.moveTo(11 * grid, 11 * grid)
-        ctx.arc(11 * grid, 11 * grid, 10, 0, Math.PI * 2)
+        ctx.arc(11 * grid, 11 * grid, starDotSize, 0, Math.PI * 2)
         ctx.moveTo(3 * grid, 11 * grid)
-        ctx.arc(3 * grid, 11 * grid, 10, 0, Math.PI * 2)
+        ctx.arc(3 * grid, 11 * grid, starDotSize, 0, Math.PI * 2)
         ctx.stroke()
         ctx.fill()
 
