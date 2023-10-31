@@ -84,8 +84,12 @@ $(function ($) {
     $('.save').click(function () {
         $('.dialog, .dialog2').hide()
 
-        const $ctx = $('#pic')[0].getContext('2d')
-        
+        const $canvas = $('#pic')[0]
+        const $ctx = $canvas.getContext('2d')
+        $canvas.width = canvas.width
+        $canvas.height = canvas.height
+        $ctx.drawImage(canvas, 0, 0, $canvas.width, $canvas.height)
+
         $('.picture').show()
     })
 

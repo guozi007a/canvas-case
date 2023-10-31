@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../font/font.css">
     <link rel="stylesheet" href="./index.css">
     <title>五子棋</title>
 </head>
@@ -25,7 +26,10 @@
     </div>
     <div class="picture" style="display: none;">
         <div class="pic_mask"></div>
-        <canvas id="pic"></canvas>
+        <div class="pic_main">
+            <canvas id="pic"></canvas>
+            <p class="pic_tip">------ 长按或右键保存图片 ------</p>
+        </div>
     </div>
     <script src="../min/jquery-3.7.1.min.js"></script>
     <script src="./index.js"></script>
