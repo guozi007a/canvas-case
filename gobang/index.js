@@ -246,6 +246,8 @@ $(function ($) {
         }
 
         isBlack = true
+
+        $('.current span').text(isBlack ? '黑子' : '白子')
     }
 
     // 准备开始
