@@ -8,4 +8,4 @@ canvas示例
 [gobang](https://guozi007a.github.io/canvas-case/gobang/)
 
 **笛卡尔爱心**
-[gobang](https://guozi007a.github.io/canvas-case/descartes-heart/)
+[descartes-heart](https://guozi007a.github.io/canvas-case/descartes-heart/)
