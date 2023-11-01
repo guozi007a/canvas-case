@@ -1,4 +1,5 @@
 $(function ($) {
+    /** @type {HTMLCanvasElement} */
     const canvas = $('#canvas')[0]
     const ctx = canvas.getContext('2d')
     const $canvas = $('#pic')[0]
