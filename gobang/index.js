@@ -5,7 +5,6 @@ $(function ($) {
     const $canvas = $('#pic')[0]
     const $ctx = $canvas.getContext('2d')
     const bw = $('body').width()
-    console.log(`body width: ${bw}`)
     // 打断点适配不同尺寸的设备
     const breakPoint1 = 1540
     const breakPoint2 = 1080
@@ -29,15 +28,12 @@ $(function ($) {
     // 画布的高度
     canvas.height = bw >= breakPoint1 ? 800 : (bw > breakPoint2 ? 600 : Math.floor(bw / 10) * 10)
     const ch = canvas.height
-    console.log(`width: ${cw}, height: ${ch}`)
     // 组成格子的线的横向或纵向的条数
     const count = 15
     // 格子大小(等宽等高)
     const grid = Math.floor(cw / (count + 1))
-    console.log(`grid: ${grid}`)
     // 最外面的线距离画布的边的距离
     const margin = (cw - (count - 1) * grid) / 2
-    console.log(`margin: ${margin}`)
     // 棋盘颜色
     const bgc = '#F0C092'
     // 当前落子是否是黑子，黑子先手
@@ -166,7 +162,7 @@ $(function ($) {
                 $('.pic1 img').attr('src', url)
                 $('.pic2').hide()
                 $('.pic1').show()
-                
+
                 return
             }
             const dx = accessDownList[cur].x
