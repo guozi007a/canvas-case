@@ -112,10 +112,10 @@ $(function ($) {
     $('.save').click(function () {
         $('.dialog, .dialog2').hide()
 
-        $ctx.clearRect(0, 0, cw, ch)
-        $ctx.drawImage(canvas, 0, 0, $canvas.width, $canvas.height)
+        const url = canvas.toDataURL()
+        $('.pic1 img').attr('src', url)
 
-        $('.picture').show()
+        $('.picture, .pic1').show()
     })
 
     // 全局回溯
@@ -160,6 +160,13 @@ $(function ($) {
                 clearInterval(timer)
                 $ctx.restore()
                 accessDownList = null
+
+                // 完成追溯后，将追溯形成的画布转换为图片，方便用户长按或右键保存为图片
+                const url = $canvas.toDataURL()
+                $('.pic1 img').attr('src', url)
+                $('.pic2').hide()
+                $('.pic1').show()
+                
                 return
             }
             const dx = accessDownList[cur].x
@@ -182,12 +189,12 @@ $(function ($) {
             cur++
         }, traceDelay);
 
-        $('.picture').show()
+        $('.picture, .pic2').show()
     })
 
     // 截图弹框中，点击遮罩层，关闭截图弹框
     $('.pic_mask').click(function () {
-        $('.picture').hide()
+        $('.picture, .pic1, .pic2').hide()
         $('.dialog, .dialog2').show()
 
         clearInterval(timer)

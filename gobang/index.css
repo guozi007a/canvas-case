@@ -65,8 +65,10 @@ canvas {
     animation: updown 3s infinite linear;
 }
 
-.picture .pic_main {
+.picture .pic1,
+.picture .pic2 {
     position: relative;
+    display: none;
 }
 
 .current {
@@ -97,7 +99,7 @@ canvas {
         transition: opacity 0.3s;
     }
 
-    .picture .pic_tip {
+    .picture .pic1 .pic_tip {
         text-align: center;
         margin-top: 12px;
         font-size: 12px;
@@ -148,7 +150,7 @@ canvas {
         transition: opacity 0.3s;
     }
 
-    .picture .pic_tip {
+    .picture .pic1 .pic_tip {
         text-align: center;
         margin-top: 12px;
         font-size: 12px;
@@ -199,7 +201,7 @@ canvas {
         transition: opacity 0.3s;
     }
 
-    .picture .pic_tip {
+    .picture .pic1 .pic_tip {
         text-align: center;
         margin-top: 2rem;
         font-size: 2.4rem;
