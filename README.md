@@ -9,3 +9,6 @@ canvas示例
 
 **笛卡尔爱心**
 [descartes-heart](https://guozi007a.github.io/canvas-case/descartes-heart/)
+
+**时钟**
+[clock](https://guozi007a.github.io/canvas-case/clock/)
