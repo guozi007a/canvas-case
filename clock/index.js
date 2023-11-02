@@ -71,7 +71,7 @@ $(function ($) {
 
         // 时针
         ctx.save()
-        ctx.lineWidth = 6
+        ctx.lineWidth = 5
         ctx.lineCap = 'round'
 
         ctx.save()
