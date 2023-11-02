@@ -135,8 +135,8 @@ $(function ($) {
         const cs = 500
 
         // 设置画布的css尺寸，解决canvas模糊的问题
-        $('#canvas').css('width', cs)
-        $('#canvas').css('height', cs)
+        $('#canvas').width(cs)
+        $('#canvas').height(cs)
         canvas.width = Math.floor(cs * dpr)
         canvas.height = Math.floor(cs * dpr)
 
