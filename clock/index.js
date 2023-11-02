@@ -3,6 +3,8 @@ $(function ($) {
     const canvas = $('#canvas')[0]
     const ctx = canvas.getContext('2d')
 
+    alert(window.devicePixelRatio)
+
     const clock = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -43,12 +45,6 @@ $(function ($) {
             }
         }
 
-        // 时分秒
-        const now = new Date()
-        const h = now.getHours() >= 12 ? now.getHours() - 12 : now.getHours()
-        const m = now.getMinutes()
-        const s = now.getSeconds()
-
         // 整点数字
         ctx.save()
         ctx.font = '14px "Modern Antiqua"'
@@ -65,9 +61,15 @@ $(function ($) {
 
         // 标注上午(A.M.)、下午(P.M.)
         ctx.beginPath()
-        ctx.fillText(`${h > 12 ? 'P.M.' : 'A.M.'}`, 0, -40)
+        ctx.fillText(`${new Date().getHours() > 12 ? 'P.M.' : 'A.M.'}`, 0, -40)
         ctx.stroke()
         ctx.restore()
+
+        // 时分秒
+        const now = new Date()
+        const h = now.getHours() >= 12 ? now.getHours() - 12 : now.getHours()
+        const m = now.getMinutes()
+        const s = now.getSeconds()
 
         // 时针
         ctx.save()
