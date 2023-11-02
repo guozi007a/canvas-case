@@ -29,7 +29,7 @@ $(function ($) {
                 ctx.rotate(Math.PI * 2 / 60 * i) // rotate写在绘制内容的前面，才能达到预设效果
                 ctx.beginPath()
                 ctx.moveTo(0, -70)
-                ctx.lineTo(0, -62)
+                ctx.lineTo(0, -64)
                 ctx.stroke()
                 ctx.restore()
             } else {
