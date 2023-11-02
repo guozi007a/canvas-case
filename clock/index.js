@@ -78,7 +78,7 @@ $(function ($) {
         // 时针的旋转不仅受自身影响，还受到分针和秒针的影响
         ctx.rotate(Math.PI / 6 * (h + m / 60 + s / 3600))
         ctx.beginPath()
-        ctx.moveTo(0, 4)
+        ctx.moveTo(0, 6)
         ctx.lineTo(0, -32)
         ctx.stroke()
         ctx.restore()
