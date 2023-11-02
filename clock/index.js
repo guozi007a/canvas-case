@@ -3,14 +3,17 @@ $(function ($) {
     const canvas = $('#canvas')[0]
     const ctx = canvas.getContext('2d')
 
-    alert(window.devicePixelRatio)
+    // 获取设备像素比
+    const dpr = window.devicePixelRatio
 
     const clock = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-
+        
         ctx.save()
 
         ctx.translate(canvas.width / 2, canvas.height / 2)
+        // 配合css尺寸和dpr，解决canvas模糊的问题
+        ctx.scale(dpr, dpr)
 
         // 外壳
         ctx.save()
@@ -128,8 +131,14 @@ $(function ($) {
     }
 
     const init = () => {
-        canvas.width = 500
-        canvas.height = 500
+        // 画布的尺寸
+        const cs = 500
+
+        // 设置画布的css尺寸，解决canvas模糊的问题
+        $('#canvas').css('width', cs)
+        $('#canvas').css('height', cs)
+        canvas.width = cs * dpr
+        canvas.height = cs * dpr
 
         clock()
     }
