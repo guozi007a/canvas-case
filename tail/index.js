@@ -44,7 +44,7 @@ $(function ($) {
     }
 
     const draw = () => { 
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
         ctx.fillRect(0, 0, innerWidth, innerHeight)
 
         path.tra()
@@ -57,8 +57,8 @@ $(function ($) {
         canvas.width = innerWidth
         canvas.height = innerHeight
 
-        ctx.lineWidth = 6
-        ctx.globalAlpha = 0.5
+        ctx.lineWidth = 4
+        // ctx.globalAlpha = 0.05
 
         path = new Trailing(
             innerWidth / 2,
@@ -66,7 +66,7 @@ $(function ($) {
             200,
             0,
             Math.PI / 300,
-            'blue'
+            'pink'
         )
 
         draw()

@@ -12,3 +12,6 @@ canvas示例
 
 **时钟**
 [clock](https://guozi007a.github.io/canvas-case/clock/)
+
+**拖尾效果**
+[tail](https://guozi007a.github.io/canvas-case/tail/)
