@@ -15,3 +15,9 @@ canvas示例
 
 **拖尾效果**
 [tail](https://guozi007a.github.io/canvas-case/tail/)
+
+**流星雨**
+[m-s-2](https://guozi007a.github.io/canvas-case/ms2/)
+
+**七彩流光**
+[meteor-shower](https://guozi007a.github.io/canvas-case/meteor-shower/)
