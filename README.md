@@ -21,3 +21,6 @@ canvas示例
 
 **七彩流光**
 [meteor-shower](https://guozi007a.github.io/canvas-case/meteor-shower/)
+
+**颜色选择器**
+[color-picker](https://guozi007a.github.io/canvas-case/color-picker/)
