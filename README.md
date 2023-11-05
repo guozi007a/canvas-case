@@ -24,3 +24,6 @@ canvas示例
 
 **颜色选择器**
 [color-picker](https://guozi007a.github.io/canvas-case/color-picker/)
+
+**圆形图片**
+[arc-img](https://guozi007a.github.io/canvas-case/arc-img/)
