@@ -1,0 +1,49 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    padding-left: 10px;
+}
+
+.preAvatar {
+    display: none;
+    margin-left: 20px;
+    border: 1px solid #333;
+    border-radius: 50%;
+}
+
+canvas {
+    border: 1px solid #333;
+}
+
+.oper {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.oper .btn {
+    width: 120px;
+    height: 40px;
+    background-color: #9191f3;
+    border-radius: 6px;
+    text-align: center;
+    line-height: 40px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 18px;
+    color: #fff;
+}
+
+.upfile {
+    display: none;
+}
+
+.enlarge,
+.shrink,
+.preImg,
+.confirm {
+    display: none;
+}

@@ -3,9 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css">
     <title>上传、预览、裁剪圆形头像</title>
 </head>
 <body>
-    
+    <canvas id="canvas"></canvas>
+    <img src="" alt="" class="preAvatar">
+    <div class="oper">
+        <p class="btn upload">上传图片</p>
+        <p class="btn enlarge">放大图片</p>
+        <p class="btn shrink">缩小图片</p>
+        <p class="btn preImg">预览图片</p>
+        <p class="btn confirm">确认裁剪</p>
+    </div>
+    <input type="file" class="upfile">
+    <script src="../min/jquery-3.7.1.min.js"></script>
+    <script src="./index.js"></script>
 </body>
 </html>
