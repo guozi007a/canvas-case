@@ -7,15 +7,37 @@ body {
     padding-left: 10px;
 }
 
+.box {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+    border: 1px solid #333;
+}
+
+.box .boxImg {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+}
+
+.box canvas {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
 .preAvatar {
     display: none;
+    width: 200px;
+    height: 200px;
     margin-left: 20px;
     border: 1px solid #333;
     border-radius: 50%;
-}
-
-canvas {
-    border: 1px solid #333;
 }
 
 .oper {

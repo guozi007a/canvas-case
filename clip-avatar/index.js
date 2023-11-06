@@ -6,14 +6,18 @@ $(function ($) {
     // 画布尺寸
     const cs = 400
     canvas.width = canvas.height = cs
-    // 上传的图片
-    let img = null
     // 裁剪的圆形半径
     const cr = 120
     // 拖拽鼠标开始位置
     let sx = sy = 0
     // 拖拽鼠标结束位置
     let ex = ey = 0
+    // 开始拖拽时，图片的位置
+    let il = it = 0
+    // 是否可拖拽
+    let isDragable = false
+    // 未上传图片时，将src置空，不然获取到的src仍然是有值的
+    $('.boxImg').attr('src', null)
 
     // 上传图片
     $('.upload').click(function () {
@@ -33,20 +37,16 @@ $(function ($) {
         file && fr.readAsDataURL(file)
         fr.onload = function () {
             $('.enlarge, .shrink, .preImg, .confirm').show()
-
-            img = new Image()
-            img.src = this.result
+            $('.boxImg').attr('src', this.result)
 
             preClip()
+
+            sx = sy = ex = ey = il = it = 0
         }
     })
 
-    // 将上传的图片，放到画布上，准备裁剪
+    // 上传图片后，画布加上遮罩
     const preClip = () => {
-        const mw = Math.floor(Math.min(cs, img.width))
-        const mh = Math.floor(Math.min(cs, img.height))
-        // 画图片
-        ctx.drawImage(img, 0, 0, mw, mh, 0, 0, mw, mh)
         // 加灰色遮罩
         ctx.save()
         ctx.fillStyle = 'rgba(0, 0, 0, 0.6)'
@@ -58,37 +58,46 @@ $(function ($) {
         ctx.beginPath()
         ctx.arc(cs / 2, cs / 2, cr, 0, Math.PI * 2)
         ctx.clip()
-        ctx.drawImage(
-            img,
-            Math.floor((cs - cr * 2) / 2),
-            Math.floor((cs - cr * 2) / 2),
-            cr * 2,
-            cr * 2,
+        ctx.clearRect( // 把圆形区域内的灰色遮罩清除
             Math.floor((cs - cr * 2) / 2),
             Math.floor((cs - cr * 2) / 2),
             cr * 2,
             cr * 2,
         )
-        ctx.restore()
+        ctx.restore() // 一定要恢复到原来状态
 
         $('#canvas').css('cursor', 'move')
-        $('.preAvatar').width(cr * 2).height(cr * 2)
     }
 
     // 拖拽
-    $('#canvas').mousedown(function (e) {
-        console.log(`(${e.offsetX}, ${e.offsetY})`)
-        sx = Math.floor(e.offsetX)
-        sy = Math.floor(e.offsetY)
+    $('.box').mousedown(function (e) {
+        if ($('.boxImg')[0].src) {
+            sx = e.offsetX
+            sy = e.offsetY
+            il = $('.boxImg').position().left
+            it = $('.boxImg').position().top
+            isDragable = true
+        }
+    })
 
-        $(this).mousemove(function (e) {
-            ex = Math.min(Math.floor(e.offsetX), cs)
-            ey = Math.min(Math.floor(e.offsetY), cs)
+    $('.box').mousemove(function (e) {
+        if (isDragable) {
+            ex = e.offsetX
+            ey = e.offsetY
+            moveImg(ex - sx, ey - sy)
+        }
+    })
+
+    // 结束拖拽
+    $('document, .box').mouseup(function () {
+        isDragable = false
+    })
+
+    // 拖拽时移动图片
+    const moveImg = (dx, dy) => {
+        $('.boxImg').css({
+            left: il + dx,
+            top: it + dy,
         })
-    })
-
-    $('#canvas').mouseup(function (e) {
-        ex = Math.min(Math.floor(e.offsetX), cs)
-        ey = Math.min(Math.floor(e.offsetY), cs)
-    })
+    }
 })
