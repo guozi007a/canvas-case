@@ -20,6 +20,7 @@ body {
     z-index: 1;
     top: 0;
     left: 0;
+    user-select: none;
 }
 
 .box canvas {

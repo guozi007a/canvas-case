@@ -18,6 +18,8 @@ $(function ($) {
     let isDragable = false
     // 未上传图片时，将src置空，不然获取到的src仍然是有值的
     $('.boxImg').attr('src', null)
+    // 图片缩放比例，每次缩小为之前大小的0.95倍，放大为1.05倍
+    let rate = 0.05
 
     // 上传图片
     $('.upload').click(function () {
@@ -84,20 +86,39 @@ $(function ($) {
         if (isDragable) {
             ex = e.offsetX
             ey = e.offsetY
-            moveImg(ex - sx, ey - sy)
+
+            $('.boxImg').css({
+                left: il + ex - sx,
+                top: it + ey - sy,
+            })
         }
     })
 
     // 结束拖拽
-    $('document, .box').mouseup(function () {
+    $('.box').mouseup(function () {
         isDragable = false
     })
 
-    // 拖拽时移动图片
-    const moveImg = (dx, dy) => {
-        $('.boxImg').css({
-            left: il + dx,
-            top: it + dy,
-        })
+    // 放大
+    $('.enlarge').click(function () {
+        scaleImg(1)
+    })
+
+    // 缩小
+    $('.shrink').click(function () {
+        scaleImg(2)
+    })
+
+    // 缩放图片 1-放大 2-缩小 缩放时left和top不能变
+    const scaleImg = (type) => {
+        let iw = $('.boxImg').width()
+        let ih = $('.boxImg').height()
+        if (type == 1) {
+            $('.boxImg').width(Math.floor(iw * (1 + rate)))
+            $('.boxImg').height(Math.floor(ih * (1 + rate)))
+        } else if (type == 2) {
+            $('.boxImg').height(Math.floor(iw * (1 - rate)))
+            $('.boxImg').height(Math.floor(ih * (1 - rate)))
+        }
     }
 })
