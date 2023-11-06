@@ -16,7 +16,7 @@ $(function ($) {
     let il = it = 0
     // 是否可拖拽
     let isDragable = false
-    // 未上传图片时，将src置空，不然获取到的src仍然是有值的
+    // 未上传图片时，将src置空，不然获取到的src可能仍然是有值的
     $('.boxImg').attr('src', null)
     // 图片缩放比例，每次缩小为之前大小的0.95倍，放大为1.05倍
     let rate = 0.05
@@ -114,11 +114,46 @@ $(function ($) {
         let iw = $('.boxImg').width()
         let ih = $('.boxImg').height()
         if (type == 1) {
-            $('.boxImg').width(Math.floor(iw * (1 + rate)))
-            $('.boxImg').height(Math.floor(ih * (1 + rate)))
+            $('.boxImg').width(iw * (1 + rate))
+            $('.boxImg').height(ih * (1 + rate))
         } else if (type == 2) {
-            $('.boxImg').height(Math.floor(iw * (1 - rate)))
-            $('.boxImg').height(Math.floor(ih * (1 - rate)))
+            $('.boxImg').width(iw * (1 - rate))
+            $('.boxImg').height(ih * (1 - rate))
         }
     }
+
+    // 预览
+    $('.preImg').click(function () {
+        // 创建一个临时画布
+        const $canvas = document.createElement('canvas')
+        const $ctx = $canvas.getContext('2d')
+        // 缩放等操作后的图片的尺寸和源尺寸的比率
+        const $rate = $('.boxImg').width() / $('.boxImg')[0].naturalWidth
+        // 临时画布的宽高和预览尺寸保持一致
+        $canvas.width = cr * 2
+        $canvas.height = cr * 2
+        // 将裁剪出的圆形图片放入临时画布
+        $ctx.save()
+        $ctx.beginPath()
+        $ctx.arc(cr, cr, cr, 0, Math.PI * 2)
+        $ctx.clip()
+        const $dx = (cs - cr * 2) / 2 - $('.boxImg').position().left
+        const $dy = (cs - cr * 2) / 2 - $('.boxImg').position().top
+        const $ds = (cr * 2) / $rate
+        $ctx.drawImage(
+            $('.boxImg')[0],
+            $dx,
+            $dy,
+            Math.floor($ds),
+            Math.floor($ds),
+            0,
+            0,
+            cr * 2,
+            cr * 2,
+        )
+        $ctx.restore()
+        // 将裁剪的图片转换成地址，放入预览
+        const $url = $canvas.toDataURL()
+        $('.preAvatar').attr('src', $url).show()
+    })
 })

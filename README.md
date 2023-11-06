@@ -27,3 +27,6 @@ canvas示例
 
 **圆形图片**
 [arc-img](https://guozi007a.github.io/canvas-case/arc-img/)
+
+**裁剪头像**
+[clip-avatar](https://guozi007a.github.io/canvas-case/clip-avatar/)
