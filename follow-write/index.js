@@ -3,7 +3,7 @@ $(function ($) {
     
     // 搜索
     $('.search').click(function () {
-        const val = $('.inp').val()
+        const val = $('.inp').val().trim()
         if (!val) {
             toast('请先输入一个汉字哦~')
             return
