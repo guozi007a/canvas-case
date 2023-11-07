@@ -372,5 +372,7 @@ window.ht = {
     "迟": "https://hanyu-word-gif.cdn.bcebos.com/be6b1553cb5ec41b38ee112bbe9dabc3f.gif",
     "尺": "https://hanyu-word-gif.cdn.bcebos.com/be251e89610944403b142d677b1c7f85c.gif",
     "齿": "https://hanyu-word-gif.cdn.bcebos.com/ba6233c5222ec42a69f74788e0f0149fa.gif",
-    "倒": "https://hanyu-word-gif.cdn.bcebos.com/b49be4bfa427711e5af70c8e0eb15ce01.gif"
+    "倒": "https://hanyu-word-gif.cdn.bcebos.com/b49be4bfa427711e5af70c8e0eb15ce01.gif",
+    "好": "https://hanyu-word-gif.cdn.bcebos.com/b49cf178c427711e5a5cdc8e0eb15ce01.gif",
+    "运": "https://hanyu-word-gif.cdn.bcebos.com/b279a33d5c4274e448a570a82b53ae08c.gif",
 }
