@@ -30,3 +30,6 @@ canvas示例
 
 **裁剪头像**
 [clip-avatar](https://guozi007a.github.io/canvas-case/clip-avatar/)
+
+**小宝学写字**
+[follow-write](https://guozi007a.github.io/canvas-case/follow-write/)
