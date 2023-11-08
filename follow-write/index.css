@@ -112,6 +112,10 @@ body {
     text-shadow: 0px 2px 2px pink;
 }
 
+.box canvas {
+    position: relative;
+}
+
 .box .track {
     position: absolute;
     z-index: 1;
