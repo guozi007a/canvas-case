@@ -1,5 +1,9 @@
 $(function ($) {
     /** @type {HTMLCanvasElement} */
+    // 是否抓取(按下)了擦除滑块
+    let isClearing = false
+    // 按下滑块的初始位置
+    let clearX = 0
     
     // 搜索
     $('.search').click(function () {
@@ -26,5 +30,40 @@ $(function ($) {
         }
         $('.temp').hide()
         $('.word_gif').show().attr('src', url)
+    })
+
+    // 按下擦除滑块 激活拖拽
+    $('.clear').mousedown(function (e) {
+        isClearing = true
+        clearX = e.offsetX
+    })
+    // 移动擦除滑块
+    $('.clear').mousemove(function (e) {
+        if (isClearing) {
+            const x = e.offsetX
+            const le = $(this).position().left
+            const p = le + x - clearX
+            const w = $('.bar1').width() + x - clearX
+            if (p > 300) {
+                $(this).css('left', '300px')
+                $('.bar1').width(330)
+                return
+            }
+            if (p < 0) {
+                $(this).css('left', '0px')
+                $('.bar1').width(30)
+                return
+            }
+            $(this).css('left', `${p}px`)
+            $('.bar1').width(w)
+        }
+    })
+    // 松开擦除滑块
+    $('.clear').mouseup(function () {
+        isClearing = false
+    })
+    // 鼠标移出轨道时，就失活了
+    $('.track').mouseleave(function () {
+        isClearing = false
     })
 })

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./index.css">
-    <title>跟我写</title>
+    <title>小宝学写字</title>
 </head>
 <body>
     <p class="word">
@@ -21,7 +21,16 @@
     </div>
     <div class="box">
         <canvas id="canvas"></canvas>
-        <div class="clear">擦除</div>
+        <div class="track">
+            <div class="container">
+                <div class="bar bar1"></div>
+                <div class="bar bar2"></div>
+                <div class="clear">
+                    <span>擦除</span>
+                    <p class="line"></p>
+                </div>
+            </div>
+        </div>
     </div>
     <p style="display: none;">根据汉字搜对应图片: https://hanzi.aimcx.com/bishun-2211.html 图片来源于百度</p>
     <script src="../min/jquery-3.7.1.min.js"></script>

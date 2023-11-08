@@ -19,16 +19,25 @@ body {
     color: #333;
 }
 
-.word::before {
+.word::before,
+.box::before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: url(./tianzige.svg) no-repeat center center;
-    background-size: contain;
     opacity: .3;
+}
+
+.word::before {
+    background: url(./tzg-green.svg) no-repeat center center;
+    background-size: contain;
+}
+
+.box::before {
+    background: url(./tzg-pink.svg) no-repeat center center;
+    background-size: contain;
 }
 
 .word .word_gif {
@@ -75,4 +84,98 @@ body {
     user-select: none;
     cursor: pointer;
     color: #fff;
+}
+
+.box {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 300px;
+    height: 300px;
+}
+
+.box::after {
+    content: "这里写字哦~";
+    position: absolute;
+    z-index: 1;
+    top: -30px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #80bc9b;
+    text-shadow: 0px 2px 2px pink;
+}
+
+.box .track {
+    position: absolute;
+    z-index: 1;
+    top: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 368px;
+    height: 40px;
+    background-color: rgba(255, 192, 203, .3);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.track .container {
+    position: relative;
+    width: 360px;
+    height: 32px;
+    border-radius: 16px;
+    display: flex;
+}
+
+.container .bar {
+    height: 100%;
+    min-width: 30px;
+}
+
+.bar.bar1 {
+    width: 30px;
+    border-radius: 16px 0px 0px 16px;
+    background-color: #fff;
+}
+.bar.bar2 {
+    flex: auto;
+    border-radius: 0 16px 16px 0;
+}
+
+.clear {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 32px;
+    border-radius: 16px;
+    background-color: #fff;
+    box-shadow: inset 0 0 10px 2px rgb(0 150 136 / 30%);
+    text-align: center;
+    line-height: 32px;
+    font-size: 12px;
+    color: #009688;
+    letter-spacing: 2px;
+    user-select: none;
+    cursor: grab;
+}
+
+.clear .line {
+    position: absolute;
+    z-index: 1;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 300px;
+    background-color: rgba(255, 192, 203, .3);
 }
