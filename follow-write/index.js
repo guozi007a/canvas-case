@@ -57,12 +57,14 @@ $(function ($) {
     })
 
     // 按下擦除滑块 激活拖拽
-    $('.clear').mousedown(function (e) {
+    const clearStart = (e) => {
         isClearing = true
         clearX = e.pageX
-    })
+    }
+    $('.clear').mousedown(clearStart)
+    $('.clear').on('touchstart', clearStart)
     // 移动擦除滑块
-    $('.clear').mousemove(function (e) {
+    const clearMove = (e) => {
         if (isClearing) {
             const x = e.pageX
             const le = $(this).position().left
@@ -85,15 +87,18 @@ $(function ($) {
             // 实时更新起始位置，确保滑块的位置也是实时更新的
             clearX = x
         }
-    })
+    }
+    $('.clear').mousemove(clearMove)
+    $('.clear').on('touchmove', clearMove)
     // 松开擦除滑块
-    $('.clear').mouseup(function () {
+    const clearEnd = () => {
         isClearing = false
-    })
+    }
+    $('.clear').mouseup(clearEnd)
+    $('.clear').on('touchend', clearEnd)
     // 鼠标移出轨道时，就失活了
-    $('.track').mouseleave(function () {
-        isClearing = false
-    })
+    $('.track').mouseleave(clearEnd)
+    $('.track').on('touchcancel', clearEnd)
 
     // 开始写字
     $(canvas).mousedown(function (e) {
@@ -156,7 +161,7 @@ $(function ($) {
             $img.src = './seal.png'
 
             $img.onload = function () {
-                $ctx.drawImage($img, 0, 0, 100, 100, 180, 180, 100, 100)
+                $ctx.drawImage($img, 0, 0, 100, 100, 240, 240, 100, 100)
                 const $url = $canvas.toDataURL()
                 $('.work').attr('src', $url)
                 $('.dialog').show()
