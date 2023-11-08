@@ -135,6 +135,46 @@ $(function ($) {
         ctx.clearRect(Math.min(sl, el), 0, Math.floor(Math.abs(el - sl)), cs)
     }
 
+    // 盖章分享
+    const share = () => {
+        // 创建一个临时的画布，用于画分享图
+        const $canvas = document.createElement('canvas')
+        const $ctx = $canvas.getContext('2d')
+
+        $canvas.width = $canvas.height = cs
+
+        // 先把田字格画进去
+        const $tzg = new Image()
+        $tzg.src = './tzg-green.svg'
+
+        $tzg.onload = function () {
+            $ctx.drawImage($tzg, 0, 0, cs, cs)
+            // 再画刚写的字
+            $ctx.drawImage(canvas, 0, 0, cs, cs)
+            // 最后把印章盖上去
+            const $img = new Image()
+            $img.src = './seal.png'
+
+            $img.onload = function () {
+                $ctx.drawImage($img, 0, 0, 100, 100, 180, 180, 100, 100)
+                const $url = $canvas.toDataURL()
+                $('.work').attr('src', $url)
+                $('.dialog').show()
+                // 完成全图绘图后，销毁临时元素
+                $($canvas).remove()
+                $($tzg).remove()
+                $($img).remove()
+            }
+        }
+    }
+
+    $('.share').click(share)
+
+    $('.mask').click(function () {
+        $('.dialog').hide()
+        $('.work').attr('src', '')
+    })
+
     const init = () => {
         $('#canvas').width(300).height(300)
         cs = canvas.width = canvas.height = Math.floor(300 * dpr)

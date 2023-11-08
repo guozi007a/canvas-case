@@ -183,3 +183,81 @@ body {
     height: 300px;
     background-color: rgba(255, 192, 203, .3);
 }
+
+.box .share {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: -35px;
+    width: 30px;
+    height: 100%;
+    writing-mode: vertical-lr;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    color: #fff;
+    letter-spacing: 2px;
+    user-select: none;
+}
+
+.share span {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 0 6px;
+    background-color: pink;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.share span:hover {
+    box-shadow: inset 0 0 8px 12px rgba(255, 255, 255, .3);
+}
+
+.dialog {
+    position: fixed;
+    z-index: 12;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.dialog .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.dialog .work_img {
+    position: relative;
+    width: 300px;
+    height: 300px;
+}
+
+.dialog .work {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    vertical-align: top;
+}
+
+.dialog .work_img::after {
+    content: "------ 长按或右击保存图片 ------";
+    position: absolute;
+    z-index: 1;
+    bottom: -25px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #000;
+}
