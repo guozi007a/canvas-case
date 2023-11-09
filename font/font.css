@@ -12,7 +12,7 @@
 }
 
 @font-face {
-    font-family: cursive;
+    font-family: 'Cursive Normal';
     font-style: normal;
     font-weight: 400;
     src: url('./cursive.ttf') format('truetype');
