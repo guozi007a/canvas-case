@@ -20,6 +20,10 @@ body {
     color: #333;
 }
 
+.word .temp {
+    position: relative;
+}
+
 .word::before,
 .box::before {
     content: "";
