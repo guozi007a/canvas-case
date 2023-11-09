@@ -4,6 +4,7 @@
 }
 
 body {
+    box-sizing: border-box;
     padding: 10px;
 }
 
@@ -263,6 +264,10 @@ body {
 }
 
 @media screen and (max-width: 1080px) {
+    body {
+        padding: 0;
+    }
+    
     .word {
         width: 50rem;
         height: 50rem;
