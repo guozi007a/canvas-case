@@ -11,13 +11,13 @@ $(function ($) {
     // 是否在写字或者是否可以写字
     let isWriting = false
     // 画布的尺寸
-    let cs = 0
+    const cs = 300
     // 每次开始写字的起点
     let wx = wy = 0
 
     const init = () => {
-        $('#canvas').width(300).height(300)
-        cs = canvas.width = canvas.height = Math.floor(300 * dpr)
+        $(canvas).width(cs).height(cs)
+        canvas.width = canvas.height = Math.floor(cs * dpr)
         ctx.clearRect(0, 0, cs, cs)
         ctx.save()
         ctx.scale(dpr, dpr)
@@ -193,12 +193,9 @@ $(function ($) {
     $('.mask').click(dialogVisible)
 
     /** 适配手机端事件 */
-    $('.clear').on('touchstart', function () {
-        alert(1)
-    })
-    $('.clear').tap(function () {
-        alert(2)
-    })
+    $('.clear').on('touchstart', clearStart)
+    $('.clear').on('touchmove', clearMove)
+    $('.clear').on('touchend', clearEnd)
     /******** 适配 End *********/
 
     init()
