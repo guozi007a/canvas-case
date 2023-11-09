@@ -2,6 +2,10 @@ $(function ($) {
     /** @type {HTMLCanvasElement} */
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
+    // 适配手机端断点
+    const point = 1080
+    // rem
+    let rem = 0
     // 是否抓取(按下)了擦除滑块，或者是否可以拖拽滑块
     let isClearing = false
     // 按下滑块的初始位置
@@ -11,11 +15,23 @@ $(function ($) {
     // 是否在写字或者是否可以写字
     let isWriting = false
     // 画布的尺寸
-    const cs = 300
+    let cs = 300
     // 每次开始写字的起点
     let wx = wy = 0
 
+    // 响应式尺寸，适配不同设备尺寸
+    const flexible = () => {
+        if (innerWidth <= point) {
+            rem = innerWidth / point * 10
+            document.documentElement.style.fontSize = rem + 'px'
+
+            cs = Math.floor(50 * rem)
+        }
+    }
+
     const init = () => {
+        flexible()
+        
         $(canvas).width(cs).height(cs)
         canvas.width = canvas.height = Math.floor(cs * dpr)
         ctx.clearRect(0, 0, cs, cs)
@@ -191,11 +207,13 @@ $(function ($) {
     $(canvas).mouseleave(writeEnd)
     $('.share').click(share)
     $('.mask').click(dialogVisible)
+    // 适配手机端
+    window.addEventListener('resize', flexible)
 
     /** 适配手机端事件 */
-    $('.clear').on('touchstart', clearStart)
-    $('.clear').on('touchmove', clearMove)
-    $('.clear').on('touchend', clearEnd)
+    // $('.clear').on('touchstart', clearStart)
+    // $('.clear').on('touchmove', clearMove)
+    // $('.clear').on('touchend', clearEnd)
     /******** 适配 End *********/
 
     init()
