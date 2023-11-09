@@ -72,21 +72,21 @@ $(function ($) {
     const clearMove = (e) => {
         if (isClearing) {
             const x = e.pageX
-            const le = $(this).position().left
+            const le = $('.clear').position().left
             const p = le + x - clearX
             const w = $('.bar1').width() + x - clearX
             clear(le, p)
             if (p > 300) {
-                $(this).css('left', '300px')
+                $('.clear').css('left', '300px')
                 $('.bar1').width(330)
                 return
             }
             if (p < 0) {
-                $(this).css('left', '0px')
+                $('.clear').css('left', '0px')
                 $('.bar1').width(30)
                 return
             }
-            $(this).css('left', `${p}px`)
+            $('.clear').css('left', `${p}px`)
             $('.bar1').width(w)
 
             // 实时更新起始位置，确保滑块的位置也是实时更新的
@@ -96,7 +96,6 @@ $(function ($) {
 
     const clearEnd = () => {
         isClearing = false
-        alert(1)
     }
 
     const writeStart = (e) => {
@@ -154,7 +153,7 @@ $(function ($) {
             $img.src = './seal.png'
 
             $img.onload = function () {
-                $ctx.drawImage($img, 0, 0, 100, 100, 240, 240, 100, 100)
+                $ctx.drawImage($img, 0, 0, 100, 100, 180, 180, 100, 100)
                 const $url = $canvas.toDataURL()
                 $('.work').attr('src', $url)
                 $('.dialog').show()
@@ -177,16 +176,12 @@ $(function ($) {
     $(window).keydown(enterSearch)
     // 按下擦除滑块 激活拖拽
     $('.clear').mousedown(clearStart)
-    $('.clear').on('touchstart', clearStart)
     // 移动擦除滑块
     $('.clear').mousemove(clearMove)
-    $('.clear').on('touchmove', clearMove)
     // 松开擦除滑块
     $('.clear').mouseup(clearEnd)
-    $('.clear').on('touchend', clearEnd)
     // 鼠标移出轨道时，就失活了
     $('.track').mouseleave(clearEnd)
-    $('.track').on('touchcancel', clearEnd)
     // 开始写字
     $(canvas).mousedown(writeStart)
     // 写字
@@ -196,6 +191,15 @@ $(function ($) {
     $(canvas).mouseleave(writeEnd)
     $('.share').click(share)
     $('.mask').click(dialogVisible)
+
+    /** 适配手机端事件 */
+    $('.clear').on('touchstart', function () {
+        alert(1)
+    })
+    $('.clear').tap(function () {
+        alert(2)
+    })
+    /******** 适配 End *********/
 
     init()
 })
