@@ -90,6 +90,8 @@ $(function ($) {
 
     const clearMove = (e) => {
         if (isClearing) {
+            // 在手机端进行touchmove操作时，会导致页面的切换和滑动，需要阻止该默认情况
+            isFlexible && e.preventDefault()
             const x = isFlexible ? e.touches[0].pageX : e.pageX
             const le = $('.clear').position().left
             const p = le + x - clearX
@@ -128,6 +130,8 @@ $(function ($) {
 
     const writeMove = (e) => {
         if (isWriting) {
+            // 在手机端进行touchmove操作时，会导致页面的切换和滑动，需要阻止该默认情况
+            isFlexible && e.preventDefault()
             const x = isFlexible ? Math.floor(e.touches[0].pageX - $('.box').offset().left) : e.offsetX
             const y = isFlexible ? Math.floor(e.touches[0].pageY - $('.box').offset().top) : e.offsetY
             // 画线
@@ -201,7 +205,9 @@ $(function ($) {
     $('.clear').on('touchstart', clearStart)
     // 移动擦除滑块
     $('.clear').mousemove(clearMove)
-    $('.clear').on('touchmove', clearMove)
+    // 手机端默认passive为true,此时是不能通过e.preventDefault()阻止页面滑动或切换等默认行为的
+    // 所以这里需要传参设置为false，以开启阻止默认行为
+    $('.clear').on('touchmove', { passive: false }, clearMove)
     // 松开擦除滑块
     $('.clear').mouseup(clearEnd)
     $('.clear').on('touchend', clearEnd)
@@ -212,7 +218,7 @@ $(function ($) {
     $(canvas).on('touchstart', writeStart)
     // 写字
     $(canvas).mousemove(writeMove)
-    $(canvas).on('touchmove', writeMove)
+    $(canvas).on('touchmove', { passive: false }, writeMove)
     // 停止写字
     $(canvas).mouseup(writeEnd)
     $(canvas).mouseleave(writeEnd)
