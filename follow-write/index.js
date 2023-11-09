@@ -183,7 +183,9 @@ $(function ($) {
                 const $url = $canvas.toDataURL()
                 $('.work').attr('src', $url)
                 $('.dialog').show()
-                // 完成全图绘图后，销毁临时元素
+                // 完成全图绘图后，清空原来的画布，以免影响图片效果。
+                // 同时销毁临时元素，释放占用的内存
+                ctx.clearRect(0, 0, cs, cs)
                 $($canvas).remove()
                 $($tzg).remove()
                 $($img).remove()
