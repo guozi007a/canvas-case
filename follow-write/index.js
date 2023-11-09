@@ -43,7 +43,7 @@ $(function ($) {
         ctx.scale(dpr, dpr)
 
         ctx.strokeStyle = '#333'
-        ctx.lineWidth = isFlexible ? Math.ceil(1.6 * rem) : 10
+        ctx.lineWidth = isFlexible ? Math.ceil(2.2 * rem) : 10
         ctx.lineCap = 'round'
 
         // 如果此时存在分享使用的临时画布，也要修改画布尺寸
