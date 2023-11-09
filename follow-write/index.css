@@ -275,17 +275,17 @@ body {
     }
 
     .word {
-        width: 50rem;
-        height: 50rem;
-        line-height: 50rem;
-        font-size: 48rem;
+        width: 60rem;
+        height: 60rem;
+        line-height: 60rem;
+        font-size: 58rem;
         margin: auto;
     }
 
     .search_wrap {
         display: flex;
         align-items: center;
-        width: 50rem;
+        width: 60rem;
         height: 6rem;
         box-shadow: 0 0 1.4rem 0.6rem rgba(0, 0, 0, .12);
         margin: auto;
@@ -294,13 +294,13 @@ body {
     }
 
     .search_wrap .inp {
-        width: 35rem;
+        width: 42rem;
         padding: 0 2rem;
         font-size: 3.2rem;
     }
 
     .search_wrap .search {
-        width: 15rem;
+        width: 18rem;
         height: 100%;
         line-height: 6rem;
         background-color: pink;
@@ -313,8 +313,8 @@ body {
         z-index: 2;
         margin: auto;
         margin-top: 9rem;
-        width: 50rem;
-        height: 50rem;
+        width: 60rem;
+        height: 60rem;
     }
 
     .box::after {
@@ -324,14 +324,14 @@ body {
     }
 
     .box .track {
-        top: 50rem;
-        width: 64rem;
+        top: 60rem;
+        width: 74rem;
         height: 8rem;
         border-radius: 4rem;
     }
 
     .track .container {
-        width: 62rem;
+        width: 72rem;
         height: 6rem;
         border-radius: 3rem;
     }
@@ -360,9 +360,10 @@ body {
     }
 
     .clear .line {
-        bottom: 8rem;
-        width: 1px;
-        height: 50rem;
+        bottom: 7rem;
+        width: 0.4rem;
+        height: 60rem;
+        background-color: rgba(255, 192, 203, .2);
     }
     
     .box .share {
@@ -388,8 +389,8 @@ body {
 
     .dialog .work_img {
         position: relative;
-        width: 50rem;
-        height: 50rem;
+        width: 60rem;
+        height: 60rem;
     }
     
     .dialog .work_img::after {

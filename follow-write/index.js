@@ -4,8 +4,9 @@ $(function ($) {
     const ctx = canvas.getContext('2d')
     // 适配手机端断点
     const point = 1080
-    // 是否需要适配，即当前设备尺寸是否小于等于断点尺寸，默认为false
-    let isFlexible = false
+    // 是否需要适配，即当前设备尺寸是否小于等于断点尺寸，
+    // 因为该应用主要用于手机端，所以默认为true
+    let isFlexible = true
     // rem
     let rem = 0
     // 是否抓取(按下)了擦除滑块，或者是否可以拖拽滑块
@@ -17,22 +18,24 @@ $(function ($) {
     // 是否在写字或者是否可以写字
     let isWriting = false
     // 画布的尺寸
-    let cs = 300
+    let cs = 0
     // 每次开始写字的起点
     let wx = wy = 0
 
     // 响应式尺寸，适配不同设备尺寸。初始化和改变尺寸时调用
     const flexible = () => {
-        // 检测时，也跟踪检测是否适配
-        isFlexible = innerWidth <= point
-
+        // 检测时，也跟踪检测是否需要适配
+        // 左适配时，使用html的clientWidth要比window.innerWidth要更靠谱
+        const ddc = document.documentElement.clientWidth
+        isFlexible = ddc <= point
         if (isFlexible) {
-            rem = innerWidth / point * 10
+            rem = ddc / point * 10
+            console.log(rem)
             document.documentElement.style.fontSize = rem + 'px'
         }
 
         // 当改变设备尺寸时，要检测需要修改尺寸的元素和属性
-        cs = isFlexible ? Math.floor(50 * rem) : 300
+        cs = isFlexible ? Math.floor(60 * rem) : 300
         $(canvas).width(cs).height(cs)
         canvas.width = canvas.height = Math.floor(cs * dpr)
         ctx.clearRect(0, 0, cs, cs)
@@ -40,11 +43,13 @@ $(function ($) {
         ctx.scale(dpr, dpr)
 
         ctx.strokeStyle = '#333'
-        ctx.lineWidth = isFlexible ? 1.6 * rem : 10
+        ctx.lineWidth = isFlexible ? Math.ceil(1.6 * rem) : 10
         ctx.lineCap = 'round'
 
         // 如果此时存在分享使用的临时画布，也要修改画布尺寸
     }
+
+    flexible()
 
     // 搜索方法
     const search = () => {
@@ -179,7 +184,9 @@ $(function ($) {
             $img.src = './seal.png'
 
             $img.onload = function () {
-                $ctx.drawImage($img, 0, 0, 100, 100, cs - 120, cs - 120, 100, 100)
+                // 100*100的印章在图片上要显示的尺寸
+                const rss = isFlexible ? Math.ceil(20 * rem) : 100
+                $ctx.drawImage($img, 0, 0, 100, 100, cs - rss - 20, cs - rss - 20, rss, rss)
                 const $url = $canvas.toDataURL()
                 $('.work').attr('src', $url)
                 $('.dialog').show()
@@ -225,10 +232,8 @@ $(function ($) {
     $(canvas).mouseup(writeEnd)
     $(canvas).mouseleave(writeEnd)
     $(canvas).on('touchend', writeEnd)
-    $('.share').click(share)
+    $('.share span').click(share)
     $('.mask').click(dialogVisible)
     // 适配手机端
     window.addEventListener('resize', flexible)
-
-    flexible()
 })
