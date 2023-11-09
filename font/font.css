@@ -10,3 +10,10 @@
     font-weight: 400;
     src: url('./Modern-Antiqua-1.woff2') format('woff2');
 }
+
+@font-face {
+    font-family: cursive;
+    font-style: normal;
+    font-weight: 400;
+    src: url('./cursive.ttf') format('truetype');
+}

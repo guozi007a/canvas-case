@@ -30,7 +30,6 @@ $(function ($) {
         isFlexible = ddc <= point
         if (isFlexible) {
             rem = ddc / point * 10
-            console.log(rem)
             document.documentElement.style.fontSize = rem + 'px'
         }
 
