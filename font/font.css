@@ -5,8 +5,9 @@
     src: url('./Modern-Antiqua.woff2') format('woff2');
 }
 @font-face {
-    font-family: 'Modern Antiqua';
+    font-family: '青柠幼圆';
     font-style: normal;
     font-weight: 400;
-    src: url('./Modern-Antiqua-1.woff2') format('woff2');
+    src: url('./qingningyouyuan.ttf') format('truetype');
+    /* src: url('./qingningyouyuan.ttf'); */
 }
