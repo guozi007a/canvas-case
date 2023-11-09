@@ -14,7 +14,7 @@ body {
     height: 250px;
     text-align: center;
     line-height: 250px;
-    font-family: cursive, serif;
+    font-family: cursive, "幼圆";
     font-size: 220px;
     font-weight: bold;
     color: #333;
@@ -282,7 +282,7 @@ body {
         width: 60rem;
         height: 60rem;
         line-height: 60rem;
-        font-size: 58rem;
+        font-size: 56rem;
         margin: auto;
     }
 
