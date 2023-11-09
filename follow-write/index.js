@@ -25,7 +25,7 @@ $(function ($) {
     // 响应式尺寸，适配不同设备尺寸。初始化和改变尺寸时调用
     const flexible = () => {
         // 检测时，也跟踪检测是否需要适配
-        // 左适配时，使用html的clientWidth要比window.innerWidth要更靠谱
+        // 进行手机适配时，使用html的clientWidth要比window.innerWidth要更靠谱
         const ddc = document.documentElement.clientWidth
         isFlexible = ddc <= point
         if (isFlexible) {
