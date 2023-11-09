@@ -169,7 +169,10 @@ $(function ($) {
         $canvas.setAttribute('id', '__canvas')
         const $ctx = $canvas.getContext('2d')
 
-        $canvas.width = $canvas.height = cs
+        // 增加像素比适配，提升清晰度
+        $($canvas).width(cs).height(cs)
+        $canvas.width = $canvas.height = Math.ceil(cs * dpr)
+        $ctx.scale(dpr, dpr)
 
         // 先把田字格画进去
         const $tzg = new Image()
