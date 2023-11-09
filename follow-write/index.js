@@ -96,6 +96,7 @@ $(function ($) {
 
     const clearEnd = () => {
         isClearing = false
+        alert(1)
     }
 
     const writeStart = (e) => {
