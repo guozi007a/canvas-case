@@ -15,6 +15,18 @@ $(function ($) {
     // 每次开始写字的起点
     let wx = wy = 0
 
+    const init = () => {
+        $('#canvas').width(300).height(300)
+        cs = canvas.width = canvas.height = Math.floor(300 * dpr)
+        ctx.clearRect(0, 0, cs, cs)
+        ctx.save()
+        ctx.scale(dpr, dpr)
+
+        ctx.strokeStyle = '#333'
+        ctx.lineWidth = 10
+        ctx.lineCap = 'round'
+    }
+
     // 搜索方法
     const search = () => {
         const val = $('.inp').val().trim()
@@ -48,22 +60,15 @@ $(function ($) {
         $('.word_gif').show().attr('src', url)
     }
 
-    // 搜索
-    $('.search').click(search)
-
-    // 当输入框获取焦点时，按下enter键，可以完成搜索
-    $(window).keydown(function (e) {
+    const enterSearch = (e) => {
         e.key == 'Enter' && $('.inp').is(':focus') && search()
-    })
+    }
 
-    // 按下擦除滑块 激活拖拽
     const clearStart = (e) => {
         isClearing = true
         clearX = e.pageX
     }
-    $('.clear').mousedown(clearStart)
-    $('.clear').on('touchstart', clearStart)
-    // 移动擦除滑块
+
     const clearMove = (e) => {
         if (isClearing) {
             const x = e.pageX
@@ -88,30 +93,21 @@ $(function ($) {
             clearX = x
         }
     }
-    $('.clear').mousemove(clearMove)
-    $('.clear').on('touchmove', clearMove)
-    // 松开擦除滑块
+
     const clearEnd = () => {
         isClearing = false
     }
-    $('.clear').mouseup(clearEnd)
-    $('.clear').on('touchend', clearEnd)
-    // 鼠标移出轨道时，就失活了
-    $('.track').mouseleave(clearEnd)
-    $('.track').on('touchcancel', clearEnd)
 
-    // 开始写字
-    $(canvas).mousedown(function (e) {
+    const writeStart = (e) => {
         isWriting = true
         // 鼠标按下的位置作为起点
         wx = e.offsetX
         wy = e.offsetY
         // 每次开始写字，都是绘制一条新的路径
         ctx.beginPath()
-    })
+    }
 
-    // 写字
-    $(canvas).mousemove(function (e) {
+    const writeMove = (e) => {
         if (isWriting) {
             const x = e.offsetX
             const y = e.offsetY
@@ -123,15 +119,11 @@ $(function ($) {
             wx = x
             wy = y
         }
-    })
+    }
 
-    // 停止写字
-    $(canvas).mouseup(function () {
+    const writeEnd = () => {
         isWriting = false
-    })
-    $(canvas).mouseleave(function () {
-        isWriting = false
-    })
+    }
 
     // 擦除 会有向左和向右移动擦除滑块的情况
     // sl--擦除线的起始位置
@@ -173,24 +165,36 @@ $(function ($) {
         }
     }
 
-    $('.share').click(share)
-
-    $('.mask').click(function () {
+    const dialogVisible = () => {
         $('.dialog').hide()
         $('.work').attr('src', '')
-    })
-
-    const init = () => {
-        $('#canvas').width(300).height(300)
-        cs = canvas.width = canvas.height = Math.floor(300 * dpr)
-        ctx.clearRect(0, 0, cs, cs)
-        ctx.save()
-        ctx.scale(dpr, dpr)
-
-        ctx.strokeStyle = '#333'
-        ctx.lineWidth = 10
-        ctx.lineCap = 'round'
     }
+
+    // 搜索
+    $('.search').click(search)
+    // 当输入框获取焦点时，按下enter键，可以完成搜索
+    $(window).keydown(enterSearch)
+    // 按下擦除滑块 激活拖拽
+    $('.clear').mousedown(clearStart)
+    $('.clear').on('touchstart', clearStart)
+    // 移动擦除滑块
+    $('.clear').mousemove(clearMove)
+    $('.clear').on('touchmove', clearMove)
+    // 松开擦除滑块
+    $('.clear').mouseup(clearEnd)
+    $('.clear').on('touchend', clearEnd)
+    // 鼠标移出轨道时，就失活了
+    $('.track').mouseleave(clearEnd)
+    $('.track').on('touchcancel', clearEnd)
+    // 开始写字
+    $(canvas).mousedown(writeStart)
+    // 写字
+    $(canvas).mousemove(writeMove)
+    // 停止写字
+    $(canvas).mouseup(writeEnd)
+    $(canvas).mouseleave(writeEnd)
+    $('.share').click(share)
+    $('.mask').click(dialogVisible)
 
     init()
 })
