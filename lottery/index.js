@@ -1,10 +1,12 @@
 $(function ($) {
+    // 总的奖品数量
+    let total = 0
     // 奖品列表
     let list = []
     // 已经抽过的数字列表
     let usedNums = []
     // 要抽多少个奖品
-    let awardCounts = 7
+    let awardCounts = 0
 
     // 显示设置奖品数量
     $('.inp').on('input', function (e) {
@@ -17,8 +19,23 @@ $(function ($) {
 
     // 抽奖
     $('.lottery').click(function () {
+        total = $('.total').val()
+        awardCounts = $('.select').val()
+
+        if (!total) {
+            toast('请输入奖品总数！')
+            return
+        }
         if (!list.length) {
             toast('奖品列表不能为空~')
+            return
+        }
+        if (!awardCounts) {
+            toast('请选择要抽取的奖品数量！')
+            return
+        }
+        if (list.length != total) {
+            toast('奖品总数不匹配！')
             return
         }
         $('.list').empty()

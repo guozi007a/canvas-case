@@ -7,6 +7,17 @@ body {
     color: #333;
 }
 
+.title {
+    text-align: center;
+}
+
+.title .total,
+.title .select {
+    width: 140px;
+    text-align: center;
+    outline: none;
+}
+
 .inp_wrap {
     width: 800px;
     height: 32px;
