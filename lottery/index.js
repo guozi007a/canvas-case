@@ -22,6 +22,13 @@ $(function ($) {
             return
         }
         $('.list').empty()
+        // 如果奖品列表数少于要抽取的奖品数，就将全部的奖品列表都当作奖品
+        if (list.length <= awardCounts) {
+            for (let i = 0; i < list.length; i++) {
+                $(`<li>${list[i]}</li>`).appendTo($('.list'))
+            }
+            return
+        }
         usedNums = []
         while (usedNums.length <= awardCounts - 1) {
             // 随机数
