@@ -17,6 +17,10 @@ $(function ($) {
 
     // 抽奖
     $('.lottery').click(function () {
+        if (!list.length) {
+            toast('奖品列表不能为空~')
+            return
+        }
         $('.list').empty()
         usedNums = []
         while (usedNums.length <= awardCounts - 1) {
