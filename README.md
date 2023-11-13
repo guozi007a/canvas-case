@@ -33,3 +33,6 @@ canvas示例
 
 **小宝学写字**
 [follow-write](https://guozi007a.github.io/canvas-case/follow-write/)
+
+**随机抽奖--N中抽M**
+[lottery](https://guozi007a.github.io/canvas-case/lottery/)
